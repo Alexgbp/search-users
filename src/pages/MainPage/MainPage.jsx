@@ -15,6 +15,7 @@ export function MainPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isShowLink, setIsShowLink] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
   const showUsersOnPage = 10;
   const indexOfLastUser = currentPage * showUsersOnPage;
   const indexOfFirstUser = indexOfLastUser - showUsersOnPage;
@@ -72,7 +73,7 @@ export function MainPage() {
           ) : (
             <span className={styles.text_error}>{errorText}</span>
           )}
-          <ListUserComponent isShowLink={isShowLink} setIsShowLink={setIsShowLink} users={currentUsers} />
+          <ListUserComponent isVisible={isVisible} setIsVisible={setIsVisible} isShowLink={isShowLink} setIsShowLink={setIsShowLink} users={currentUsers} />
           {users.length > 0 && <PaginationComponent paginate={paginate} showUsersOnPage={showUsersOnPage} totalUsers={users.length} />}
         </div>
         <div className={styles.main_block__search_block}>

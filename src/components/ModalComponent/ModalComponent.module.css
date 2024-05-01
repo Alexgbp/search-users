@@ -1,0 +1,22 @@
+.modal_block{
+    position: absolute;
+    width: 400px;
+    height: 50px;
+    background: #dbd4d4;
+    text-align: center;
+    top: 130px;
+    box-shadow: 10px 5px 5px black;
+    border-radius: 10px;
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+.modal_block.show {
+    opacity: 1; 
+}
+.icon_close{
+    cursor: pointer;
+    position: absolute;
+    right: 13px;
+    font-size: 17px;
+}
