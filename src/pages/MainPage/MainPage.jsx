@@ -35,6 +35,11 @@ export function MainPage() {
     setIsLoading(true);
     try {
       const getUser = await getListOfUsers(userName);
+      if(getUser.items.length === 0){
+        setErrorText("Ничего не найдено")
+        setIsLoading(false);
+        return;
+      }
       const usersWithRepos = await Promise.all(
         getUser.items.map(async (user) => {
           const reposResponse = await fetch(user.repos_url);
