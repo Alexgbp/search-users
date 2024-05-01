@@ -21,11 +21,7 @@ export function MainPage() {
     try {
       const getUser =  await getListOfUsers(userName)
       const usersWithRepos = await Promise.all(getUser.items.map(async user => {
-        const reposResponse = await fetch(user.repos_url, {
-          headers: {
-            Authorization: `Bearer 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`
-          }
-        });
+        const reposResponse = await fetch(user.repos_url);
         const repos = await reposResponse.json();
         setUserName("")
         return {...user, repoCount: repos.length};
