@@ -65,7 +65,7 @@ export function MainPage() {
       </header>
       <main className={styles.main_block}>
         <div className={styles.main_block__center_block}>
-          {users.length > 0 && <SelectComponent />}
+          {users.length > 0 && <SelectComponent users={users} setUsers={setUsers} />}
           {isLoading ? (
             <span>Загружаю..</span>
           ) : (
