@@ -6,53 +6,68 @@ import { ButtonComponent } from "../../components/buttonComponent/ButtonComponen
 import { ListUserComponent } from '../../components/ListUserComponent/ListUserComponent';
 import { TitleComponent } from '../../components/TitleComponent/TitleComponent';
 import { getListOfUsers } from '../../api';
+import { PaginationComponent } from '../../components/PaginateComponnet/PaginateComponnet';
 
 export function MainPage() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const [userName, setUserName] = useState("");
-  const [errorText, setErrorText] = useState("")
+  const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const showUsersOnPage = 10;
+  const indexOfLastUser = currentPage * showUsersOnPage;
+  const indexOfFirstUser = indexOfLastUser - showUsersOnPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 
   useEffect(() => {
     setUsers([]);
-    setErrorText("")
+    setErrorText("");
   }, [userName]);
-  
-  const getUsers =  async () =>{
+
+  const getUsers = async () => {
     if (!userName) {
       setErrorText("Вы не ввели данные");
       return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const getUser =  await getListOfUsers(userName)
-      const usersWithRepos = await Promise.all(getUser.items.map(async user => {
-        const reposResponse = await fetch(user.repos_url);
-        const repos = await reposResponse.json();
-        setUserName("")
-        return {...user, repoCount: repos.length};
-      }));
-      setUsers([...users, ...usersWithRepos])
-      setIsLoading(false)
+      const getUser = await getListOfUsers(userName);
+      const usersWithRepos = await Promise.all(
+        getUser.items.map(async (user) => {
+          const reposResponse = await fetch(user.repos_url);
+          const repos = await reposResponse.json();
+          setUserName("");
+          return { ...user, repoCount: repos.length };
+        })
+      );
+      setUsers([...users, ...usersWithRepos]);
+      setIsLoading(false);
       console.log(getUser.items);
     } catch (error) {
-      setErrorText(error.message)
+      setErrorText(error.message);
       console.log(error.message);
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className={styles.container}>
       <header>
-      <TitleComponent /> 
+        <TitleComponent />
       </header>
       <main className={styles.main_block}>
         <div className={styles.main_block__center_block}>
-           
-           {users.length > 0 && <SelectComponent />}
-           {isLoading ? <span>Загружаю..</span> : <span className={styles.text_error}>{errorText}</span>}
-           <ListUserComponent users={users}/>
+          {users.length > 0 && <SelectComponent />}
+          {isLoading ? (
+            <span>Загружаю..</span>
+          ) : (
+            <span className={styles.text_error}>{errorText}</span>
+          )}
+          <ListUserComponent users={currentUsers} />
+          {users.length > 0 && <PaginationComponent paginate={paginate} showUsersOnPage={showUsersOnPage} totalUsers={users.length} />}
         </div>
         <div className={styles.main_block__search_block}>
           <InputComponent userName={userName} setUserName={setUserName} />
@@ -60,5 +75,5 @@ export function MainPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
