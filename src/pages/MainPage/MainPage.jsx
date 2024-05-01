@@ -27,6 +27,7 @@ export function MainPage() {
   useEffect(() => {
     setUsers([]);
     setErrorText("");
+    setIsShowLink(false)
   }, [userName]);
 
   const getUsers = async () => {
@@ -42,6 +43,7 @@ export function MainPage() {
         setIsLoading(false);
         return;
       }
+      console.log(getUser.items);
       const usersWithRepos = await Promise.all(
         getUser.items.map(async (user) => {
           const reposResponse = await fetch(user.repos_url);
