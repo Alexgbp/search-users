@@ -1,0 +1,9 @@
+.notFound_block{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 16px 0 0 16px;
+}
+.notFound_block__message{
+    text-align: center;
+}
