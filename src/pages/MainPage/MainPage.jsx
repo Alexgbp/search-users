@@ -14,7 +14,7 @@ export function MainPage() {
   const [errorText, setErrorText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isShowLink, setIsShowLink] = useState(false);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [isVisible, setIsVisible] = useState(false)
   const showUsersOnPage = 10;
   const indexOfLastUser = currentPage * showUsersOnPage;
@@ -27,7 +27,7 @@ export function MainPage() {
   useEffect(() => {
     setUsers([]);
     setErrorText("");
-    setIsShowLink(false)
+    setIsShowModal(false)
   }, [userName]);
 
   const getUsers = async () => {
@@ -43,7 +43,7 @@ export function MainPage() {
         setIsLoading(false);
         return;
       }
-      console.log(getUser.items);
+      console.log(getUser.items.html_url);
       const usersWithRepos = await Promise.all(
         getUser.items.map(async (user) => {
           const reposResponse = await fetch(user.repos_url);
@@ -75,7 +75,7 @@ export function MainPage() {
           ) : (
             <span className={styles.text_error}>{errorText}</span>
           )}
-          <ListUserComponent isVisible={isVisible} setIsVisible={setIsVisible} isShowLink={isShowLink} setIsShowLink={setIsShowLink} users={currentUsers} />
+          <ListUserComponent isVisible={isVisible} setIsVisible={setIsVisible} isShowModal={isShowModal} setIsShowModal={setIsShowModal} users={currentUsers} />
           {users.length > 0 && <PaginationComponent paginate={paginate} showUsersOnPage={showUsersOnPage} totalUsers={users.length} />}
         </div>
         <div className={styles.main_block__search_block}>
