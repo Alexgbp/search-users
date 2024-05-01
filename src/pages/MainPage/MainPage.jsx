@@ -43,7 +43,6 @@ export function MainPage() {
         setIsLoading(false);
         return;
       }
-      console.log(getUser.items.html_url);
       const usersWithRepos = await Promise.all(
         getUser.items.map(async (user) => {
           const reposResponse = await fetch(user.repos_url);

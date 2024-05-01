@@ -22,3 +22,10 @@
     right: 13px;
     font-size: 17px;
 }
+
+.modal_block_link{
+    text-decoration: none;
+}
+.modal_block_text{
+    color: black;
+}
