@@ -1,5 +1,6 @@
 .list_block__element {
     list-style-type: none;
+    cursor: pointer;
 }
 
 .list_block__element li {
@@ -8,4 +9,9 @@
 
 .user_name {
     font-weight: 700;
+}
+.list_block{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
