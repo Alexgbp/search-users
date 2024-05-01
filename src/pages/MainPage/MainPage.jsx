@@ -10,13 +10,19 @@ import { getListOfUsers } from '../../api';
 export function MainPage() {
   const [users, setUsers] = useState([])
   const [userName, setUserName] = useState("");
+  const [errorText, setErrorText] = useState("")
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setUsers([]);
+    setErrorText("")
   }, [userName]);
   
   const getUsers =  async () =>{
+    if (!userName) {
+      setErrorText("Вы не ввели данные");
+      return;
+    }
     setIsLoading(true)
     try {
       const getUser =  await getListOfUsers(userName)
@@ -30,6 +36,7 @@ export function MainPage() {
       setIsLoading(false)
       console.log(getUser.items);
     } catch (error) {
+      setErrorText(error.message)
       console.log(error.message);
       setIsLoading(false)
     }
@@ -42,8 +49,9 @@ export function MainPage() {
       </header>
       <main className={styles.main_block}>
         <div className={styles.main_block__center_block}>
+           
            {users.length > 0 && <SelectComponent />}
-           {isLoading && <span>Загружаю..</span>}
+           {isLoading ? <span>Загружаю..</span> : <span className={styles.text_error}>{errorText}</span>}
            <ListUserComponent users={users}/>
         </div>
         <div className={styles.main_block__search_block}>
