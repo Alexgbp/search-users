@@ -1,0 +1,11 @@
+.list_block__element {
+    list-style-type: none;
+}
+
+.list_block__element li {
+    font-weight: 700;
+}
+
+.user_name {
+    font-weight: 700;
+}

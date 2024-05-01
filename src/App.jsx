@@ -1,8 +1,7 @@
+import {AppRouter} from "./routes";
 
-function App() {
-  return (
-    <h1>react</h1>
-  );
+export function App() {
+  return <AppRouter />;
 }
 
 export default App;
